@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import static org.junit.Assert.*;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring-config.xml"})
 public class RedisDaoTest {
@@ -21,13 +19,13 @@ public class RedisDaoTest {
 
     @Test
     public void redisSeckill() {
-        Seckill seckill = redisDao.getSeckill(id);
+        Seckill seckill = redisDao.getSerialization(id);
         if (seckill == null){
             seckill = seckillDao.queryById(id);
             if (seckill != null){
-                String result = redisDao.putSeckill(seckill);
+                String result = redisDao.putSerialization(seckill);
                 System.out.println(result);
-                seckill = redisDao.getSeckill(id);
+                seckill = redisDao.getSerialization(id);
                 System.out.println(seckill);
             }
         }

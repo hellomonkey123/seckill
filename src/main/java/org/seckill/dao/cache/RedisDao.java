@@ -20,7 +20,7 @@ public class RedisDao {
         jedisPool = new JedisPool(ip,port);
     }
 
-    public Seckill getSeckill(long seckillId){
+    public Seckill getSerialization(long seckillId){
         //redis逻辑操作
         try{
             Jedis jedis = jedisPool.getResource();
@@ -45,7 +45,7 @@ public class RedisDao {
         return null;
     }
 
-    public String putSeckill(Seckill seckill){
+    public String putSerialization(Seckill seckill){
         //set Objects(Seckill) -> 序列化 -> byte[]
         try{
             Jedis jedis = jedisPool.getResource();
@@ -56,8 +56,8 @@ public class RedisDao {
                         LinkedBuffer.allocate(LinkedBuffer.DEFAULT_BUFFER_SIZE));
 
                 int timeout = 60 * 60; //one hour
-                String result  = jedis.setex(key.getBytes(), timeout, bytes);
-                return result;
+                //String result  = jedis.setex(key.getBytes(), timeout, bytes);
+                return jedis.setex(key.getBytes(), timeout, bytes);
             }finally {
                 jedis.close();
             }

@@ -7,6 +7,7 @@ DELIMITER $$ --console;转换为 $$
 --row_count() : 返回上一条修改类型SQL（delete、insert、update）的影响行数
 --row_count： 0：未修改 ； >0 :表示修改的行数  <0 : 表示sql错误或者说未执行
 
+--  下面的seckill.execute_seckill，seckill表示数据库名，execute_seckill表示存储过程名
 create procedure seckill.execute_seckill
 (in v_seckill_id bigint, in v_phone bigint,
  in v_kill_time timestamp ,out r_result int)
@@ -55,6 +56,12 @@ call execute_seckill(1003,13888888888,now(),@r_result);
 -- 获取结果
 select * from seckill where seckill_id=1003\G
 select @r_result;
+
+ show procedure status where db='seckill'; --显示seckill数据库下的存储过程的信息
+ show create procedure seckill.execute_seckill; -- 显示seckill数据库下execute_seckill存储过程的详细信息
+ alter procedure execute_seckill; --修改存储过程
+ drop procedure execute_seckill; --删除叫execute_seckill的存储过程
+ DROP PROCEDURE IF EXISTS execute_seckill; --或这样写
 
 -- 存储过程
 -- 1.存储过程优化：事务行级锁持有时间（缩短）

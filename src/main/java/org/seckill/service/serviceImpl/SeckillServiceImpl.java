@@ -1,6 +1,5 @@
 package org.seckill.service.serviceImpl;
 
-import com.sun.xml.internal.ws.policy.PolicyMapUtil;
 import org.apache.commons.collections.MapUtils;
 import org.seckill.Exception.RepeatKillException;
 import org.seckill.Exception.SeckillClosedException;
@@ -74,7 +73,7 @@ public class SeckillServiceImpl implements SeckillService {
     public Exposer exportSeckillUrl(long seckillId) {
         //优化点：缓存优化，超时的基础上维护一致性
         //访问redis
-        Seckill seckill = redisDao.getSeckill(seckillId);
+        Seckill seckill = redisDao.getSerialization(seckillId);
         //找不到该商品
         if (seckill == null) {
             //看数据有没有
@@ -83,7 +82,7 @@ public class SeckillServiceImpl implements SeckillService {
                 return new Exposer(false, seckillId);
             } else {
                 //数据库没有缓存也没有就存到redis中
-                redisDao.putSeckill(seckill);
+                redisDao.putSerialization(seckill);
             }
         }
         Date startTime = seckill.getStartTime();

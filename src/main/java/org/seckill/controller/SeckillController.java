@@ -86,10 +86,12 @@ public class SeckillController {
         
         try {
             //以下两者二选一
-            /*//使用存储的方式实现秒杀
-            SeckillExecution execution = seckillService.executeSeckillProcedure(seckillId,phone,md5);*/
-            //事务性完成秒杀
+            //使用存储的方式实现秒杀
+            SeckillExecution execution = seckillService.executeSeckillProcedure(seckillId,phone,md5);
+
+            /*//事务性完成秒杀
             SeckillExecution execution = seckillService.executeSeckill(seckillId,phone,md5);
+            */
             return new SeckillResult<>(true,execution);
         } catch (RepeatKillException e) {
             SeckillExecution seckillExecution = new SeckillExecution(seckillId, SeckillStatEnum.REPEAT_KILL);
